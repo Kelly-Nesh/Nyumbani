@@ -18,6 +18,7 @@ CORS_ALLOWED_ORIGINS = ['http://192.168.250.153:5173', 'http://localhost:5173']
 
 INSTALLED_APPS = [
     'corsheaders',
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -95,3 +96,22 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Nyumbani Admin",
+
+    "site_header": "Nyumbani Admin",
+
+    "site_brand": "Nyumbani",
+
+    "copyright": "Nyumbani Ltd",
+    "topmenu_links": [
+
+        {"name": "Home", "url": "admin:index",
+         "permissions": ["auth.view_user"]},
+
+        {"model": "main.User"},
+
+        {"app": "main"},
+    ],
+}
