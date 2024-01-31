@@ -1,4 +1,4 @@
-from rest_framework import serializer as sz
+from rest_framework import serializers as sz
 from main import models as mdl
 
 
@@ -30,7 +30,7 @@ class HouseSerializer(sz.ModelSerializer):
 		fields = "__all__"
 
 
-class UserSerialzer(sz.ModelSerializer):
+class UserSerializer(sz.ModelSerializer):
 	class Meta:
 		model = mdl.User
 		fields = "__all__"
