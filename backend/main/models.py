@@ -10,7 +10,7 @@ class Town(models.Model):
         return f"{self.name}"
 
     def save(self, *args, **kwargs):
-        if self.slug is None:
+        if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
@@ -24,7 +24,7 @@ class Suburb(models.Model):
         return "{}, {}".format(self.name, self.town)
 
     def save(self, *args, **kwargs):
-        if self.slug is None:
+        if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
@@ -45,7 +45,7 @@ class House(models.Model):
         return f"{self.name}"
 
     def save(self, *args, **kwargs):
-        if self.slug is None:
+        if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
@@ -59,7 +59,7 @@ class User(models.Model):
         return f"{self.name}"
 
     def save(self, *args, **kwargs):
-        if self.slug is None:
+        if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
