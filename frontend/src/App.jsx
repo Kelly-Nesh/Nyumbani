@@ -1,35 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css';
+import { createBrowserRouter, Outlet } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { LAYOUT } from './components/base_imports.jsx';
+import Home from './components/home/home.jsx';
 
-function App() {
-  const [count, setCount] = useState(0)
+const { Container, Spinner } = LAYOUT;
 
+function Layout () {
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Container fluid>
+      <Outlet />
+    </Container>
+  );
 }
+const router = createBrowserRouter([
+  {
+    path: '',
+    element: <Layout />,
+    children: [
+      { path: '', element: <Home /> }
+    ]
+  }
+]);
+export default router;
 
-export default App
+export function LoadingScreen () {
+  return (
+    <div className='vh-100 d-flex justify-content-center align-items-center'>
+      <Spinner animation='border' variant='info' />
+    </div>
+  );
+}

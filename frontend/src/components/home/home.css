@@ -1,0 +1,31 @@
+.reset > * {
+margin: 0;
+padding: 0;
+}
+.profile-pic {
+  width: 75px;
+  height: 75px;
+}
+.house {
+  border: 1px solid lightgrey;
+}
+.house-header {
+  vertical-align: middle;
+}
+.carousel-item img {
+  height: 270px;
+  object-fit: cover;
+}
+.carousel-caption {
+  height: 55px;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: hsla(0, 0%, 10%, 0.4);
+}
+.icon {
+  color: var(--border-color);
+}
+.house-details > * {
+  text-align: center
+}
