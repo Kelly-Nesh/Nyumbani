@@ -11,10 +11,11 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG')
+LOCALHOST = os.getenv("MYIP")
 
-ALLOWED_HOSTS = ['localhost', '192.168.25.153']
+ALLOWED_HOSTS = ['localhost', LOCALHOST]
 
-CORS_ALLOWED_ORIGINS = ['http://192.168.25.153:5173', 'http://localhost:5173']
+CORS_ALLOWED_ORIGINS = [f'http://{LOCALHOST}:5173', 'http://localhost:5173']
 
 INSTALLED_APPS = [
     'corsheaders',
