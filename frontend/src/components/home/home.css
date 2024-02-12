@@ -2,10 +2,12 @@
   margin: 0;
   padding: 0;
 }
-/* .profile-pic {
-  width: 75px;
-  height: 75px;
-} */
+.carousel-indicators [data-bs-target] {
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  margin-bottom: 5px;
+}
 .house {
   border: 1px solid lightgrey;
 }

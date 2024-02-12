@@ -23,48 +23,45 @@ function Home() {
   if (isLoading) return <Spinner variant="success" />;
   if (isError) return <Alert variant="warning">Something went wrong</Alert>;
 
+  const controls = window.innerWidth > 992 ? true : false;
+
   const mappedHouses = houses.map((h, idx) => {
+    cl(h.images);
+    h.images.push(
+      { image: `https://picsum.photos/id/${idx * 3}/1000` },
+      { image: `https://picsum.photos/id/${idx * 5}/1000` }
+    );
     return (
       <Col sm={6} lg={4} className="p-0 pb-3 house" key={h.slug}>
-        <Row className="p-1 w-100">
+        <Row className="m-auto">
           <Col xs={4} className="">
             <img
               src="/src/assets/profile.jpg"
               className="rounded-circle w-100 h-100"
             />
           </Col>
-          <Col xs={8} className="house-header reset">
+          <Col
+            xs={8}
+            className="d-flex flex-column justify-content-center pe-0 reset"
+          >
             <h2>{h.agent.name}</h2>
             <small className="text-muted">1wk&nbsp;7 Followers</small>
           </Col>
         </Row>
         <div>
-          <Carousel controls={false} indicators={false} interval={null}>
-            {/* <CarouselItem images={h.images} price={h.price} /> */}
-            <Carousel.Item>
-              <img
-                src={`https://picsum.photos/id/${Math.floor(
-                  Math.random() * 100
-                )}/500`}
-                className="w-100"
-              />
-              <Carousel.Caption className="ps-3 w-100 text-start reset">
-                <h3 className="d-inline-block">KES {h.price}</h3>
-                <p className="d-inline-block">&nbsp;every month</p>
-              </Carousel.Caption>
-            </Carousel.Item>
-            <Carousel.Item>
-              <img
-                src={`https://picsum.photos/id/${Math.floor(
-                  Math.random() * 100
-                )}/500`}
-                className="w-100"
-              />
-              <Carousel.Caption className="ps-3 w-100 text-start reset">
-                <h3 className="d-inline-block">KES {h.price}</h3>
-                <p className="d-inline-block">&nbsp;every month</p>
-              </Carousel.Caption>
-            </Carousel.Item>
+          <Carousel controls={controls} interval={null}>
+            {h.images.map(({ image }, idx) => {
+              cl(image);
+              return (
+                <Carousel.Item key={idx}>
+                  <img src={image} className="w-100" />
+                  <Carousel.Caption className="ps-3 w-100 text-start reset">
+                    <h3 className="d-inline-block">KES {h.price}</h3>
+                    <p className="d-inline-block">&nbsp;every month</p>
+                  </Carousel.Caption>
+                </Carousel.Item>
+              );
+            })}
           </Carousel>
         </div>
         <div>
