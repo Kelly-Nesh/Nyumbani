@@ -1,11 +1,11 @@
 .reset > * {
-margin: 0;
-padding: 0;
+  margin: 0;
+  padding: 0;
 }
-.profile-pic {
+/* .profile-pic {
   width: 75px;
   height: 75px;
-}
+} */
 .house {
   border: 1px solid lightgrey;
 }
@@ -27,5 +27,17 @@ padding: 0;
   color: var(--border-color);
 }
 .house-details > * {
-  text-align: center
+  text-align: center;
+}
+
+@media (min-width: 576px) {
+  .house {
+    width: 48%;
+  }
+}
+
+@media (min-width: 992px) {
+  .house {
+    width: 31%;
+  }
 }

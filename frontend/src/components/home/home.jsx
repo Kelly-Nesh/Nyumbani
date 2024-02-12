@@ -1,75 +1,139 @@
-import './home.css';
-import { cl, LAYOUT } from '../base_imports.jsx';
-import Carousel from 'react-bootstrap/Carousel';
-import { CiBookmarkPlus } from 'react-icons/ci';
-const { Container, Row, Col } = LAYOUT;
+import "./home.css";
+import { cl, LAYOUT } from "../base_imports.jsx";
+import Carousel from "react-bootstrap/Carousel";
+import { CiBookmarkPlus } from "react-icons/ci";
+import { GiCheckMark } from "react-icons/gi";
+import Button from "react-bootstrap/esm/Button.js";
+import useGetHouse from "../../services/hooks/useGetHouses.jsx";
+import { useEffect, useState } from "react";
+import Spinner from "react-bootstrap/esm/Spinner.js";
+import { GrClose } from "react-icons/gr";
+const { Row, Col, Alert } = LAYOUT;
 
-function Home () {
-  const houses = [];
-  for (let i = 0; i <= 5; i++) {
-    houses.push(
-    <Col sm={6} lg={4} className='m-0 p-0 pb-3 house' key={i}>
-      <div className=''>{/* heading */}
-        <div className='d-inline-block profile-pic m-2'><img src='/src/assets/profile.jpg' className='rounded-circle w-100 h-100' /></div>
-        <div className='d-inline-block house-header reset'>
-          <h2>Parles Realestate</h2>
-          <small className='text-muted'>1wk&nbsp;7 Followers</small>
-        </div>
-      </div>
-      <div>
-        <Carousel controls={false} indicators={false} interval={null}>
-          <Carousel.Item>
-            <img src='/src/assets/main.jpg' className='w-100' />
-            <Carousel.Caption
-              className='ps-3 w-100 text-start reset'
-            >
-              <h3 className='d-inline-block'>KES 20,000</h3><p className='d-inline-block'>&nbsp;every month</p>
-            </Carousel.Caption>
-          </Carousel.Item>
-           <Carousel.Item>
-            <img src='/src/assets/main.jpg' className='w-100' />
-            <Carousel.Caption
-              className='ps-3 w-100 text-start reset'
-            >
-              <h3 className='d-inline-block'>KES 20,000</h3><p className='d-inline-block'>&nbsp;every month</p>
-            </Carousel.Caption>
-          </Carousel.Item>
-        </Carousel>
-      </div>
-      <div>
-        <div className=' d-flex justify-content-between m-3'>
-          <div className='reset'>
-            <h4>Palm ridge</h4>
-            <p>Runda, Nairobi</p>
-          </div>
-          <div className='reset'>
-            <CiBookmarkPlus className='display-6 icon' />
-          </div>
+function Home() {
+  const { data, isLoading, isError } = useGetHouse();
+  const [houses, setHouses] = useState([]);
+
+  useEffect(() => {
+    if (data) {
+      setHouses(data);
+    }
+  }, [data]);
+
+  if (isLoading) return <Spinner variant="success" />;
+  if (isError) return <Alert variant="warning">Something went wrong</Alert>;
+
+  const mappedHouses = houses.map((h, idx) => {
+    return (
+      <Col sm={6} lg={4} className="p-0 pb-3 house" key={h.slug}>
+        <Row className="p-1 w-100">
+          <Col xs={4} className="">
+            <img
+              src="/src/assets/profile.jpg"
+              className="rounded-circle w-100 h-100"
+            />
+          </Col>
+          <Col xs={8} className="house-header reset">
+            <h2>{h.agent.name}</h2>
+            <small className="text-muted">1wk&nbsp;7 Followers</small>
+          </Col>
+        </Row>
+        <div>
+          <Carousel controls={false} indicators={false} interval={null}>
+            {/* <CarouselItem images={h.images} price={h.price} /> */}
+            <Carousel.Item>
+              <img
+                src={`https://picsum.photos/id/${Math.floor(
+                  Math.random() * 100
+                )}/500`}
+                className="w-100"
+              />
+              <Carousel.Caption className="ps-3 w-100 text-start reset">
+                <h3 className="d-inline-block">KES {h.price}</h3>
+                <p className="d-inline-block">&nbsp;every month</p>
+              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                src={`https://picsum.photos/id/${Math.floor(
+                  Math.random() * 100
+                )}/500`}
+                className="w-100"
+              />
+              <Carousel.Caption className="ps-3 w-100 text-start reset">
+                <h3 className="d-inline-block">KES {h.price}</h3>
+                <p className="d-inline-block">&nbsp;every month</p>
+              </Carousel.Caption>
+            </Carousel.Item>
+          </Carousel>
         </div>
         <div>
-          <Row className='w-100 justify-content-between'>
-            <Col xs={3} className='house-details reset my-1 mx-2'>
-              <h5>2</h5>
-              <p>Bedrooms</p>
-            </Col>
-            <Col xs={3} className='house-details reset my-1 mx-2'>
-              <h5>1</h5>
-              <p>Bathrooms</p>
-            </Col>
-            <Col xs={3} className='house-details reset my-1 mx-2'>
-              <h5>No</h5>
-              <p>Pets Allowed</p>
-            </Col>
-          </Row>
+          <div className=" d-flex justify-content-between m-3">
+            <div className="reset">
+              <h4>{h.name}</h4>
+              <p>{h.location.name}</p>
+            </div>
+            <div className="reset text-end">
+              <p className="d-inline me-2">
+                {h.available ? (
+                  <>
+                    <GiCheckMark /> Available
+                  </>
+                ) : (
+                  <>
+                    <GrClose /> Unavailable
+                  </>
+                )}
+              </p>
+              <br />
+              <CiBookmarkPlus className="display-6 icon" />
+            </div>
+          </div>
+          <div>
+            <Row className="w-100 justify-content-between">
+              <Col xs={3} className="house-details reset my-1 mx-2">
+                <h5>{h.bedrooms}</h5>
+                <p>Bedrooms</p>
+              </Col>
+              <Col xs={3} className="house-details reset my-1 mx-2">
+                <h5>{h.bathrooms}</h5>
+                <p>Bathrooms</p>
+              </Col>
+              <Col xs={3} className="house-details reset my-1 mx-2">
+                <h5></h5>
+                <p>Pets {h.pets_allowed && "Not"} Allowed</p>
+              </Col>
+              <Col className="text-end">
+                <Button variant="success" className="py-2 px-3">
+                  Contact
+                </Button>
+              </Col>
+            </Row>
+          </div>
         </div>
-      </div>
-    </Col>)
-  }
+      </Col>
+    );
+  });
+
   return (
-    <Row className=''>
-      {houses}
-    </Row>
+    <Row className="gy-3 gap-4 justify-content-around ">{mappedHouses}</Row>
   );
 }
 
 export default Home;
+
+function CarouselItem({ images, price }) {
+  const mi = [];
+  for (let i = 0; i <= 5; i++) {
+    mi.push(
+      <Carousel.Item className={i == 0 ? "active" : ""}>
+        <img src="https://picsum.photos/500" className="w-100" />
+        <Carousel.Caption className="ps-3 w-100 text-start reset">
+          <h3 className="d-inline-block">KES {price}</h3>
+          <p className="d-inline-block">&nbsp;every month</p>
+        </Carousel.Caption>
+      </Carousel.Item>
+    );
+  }
+  return mi;
+}
