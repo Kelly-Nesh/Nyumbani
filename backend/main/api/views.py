@@ -10,7 +10,7 @@ class TownViewSet(ModelViewSet):
     lookup_field = 'slug'
 
     def partial_update(self, request, **kwargs):
-        super().partial_update(*args, **kwargs)
+        super().partial_update(request, **kwargs)
 
 
 class SuburbViewSet(ModelViewSet):
@@ -19,7 +19,7 @@ class SuburbViewSet(ModelViewSet):
     lookup_field = 'slug'
 
     def partial_update(self, request, **kwargs):
-        super().partial_update(*args, **kwargs)
+        super().partial_update(request, **kwargs)
 
 
 class HouseViewSet(ModelViewSet):
@@ -29,8 +29,8 @@ class HouseViewSet(ModelViewSet):
 
     def partial_update(self, request, **kwargs):
         # custom images updater
-        partial_update(House, request, **kwargs)
-        super().partial_update(*args, **kwargs)
+        partial_update(mdl.House, request, **kwargs)
+        super().partial_update(request, **kwargs)
 
 
 class AgentViewSet(ModelViewSet):
@@ -39,7 +39,7 @@ class AgentViewSet(ModelViewSet):
     lookup_field = 'slug'
 
     def partial_update(self, request, **kwargs):
-        super().partial_update(*args, **kwargs)
+        super().partial_update(request, **kwargs)
 
 
 class UserViewSet(ModelViewSet):
@@ -48,7 +48,7 @@ class UserViewSet(ModelViewSet):
     lookup_field = 'slug'
 
     def partial_update(self, request, **kwargs):
-        super().partial_update(*args, **kwargs)
+        super().partial_update(request, **kwargs)
 
 
 
@@ -72,7 +72,7 @@ def partial_update(model, request, **kwargs):
     except KeyError:
         pass
     else:
-        del_imgs = [Image.objects.get(image=i[7:]) for i in removed_images]
+        del_imgs = [mdl.Image.objects.get(image=i[7:]) for i in removed_images]
         instance.images.remove(*del_imgs)
 
     # Add new images
@@ -90,7 +90,7 @@ def add_images(instance, postdata):
         new_images = postdata.getlist('newimages')
     except KeyError:
         return
-    images = [Image.objects.get(image=i[7:])
+    images = [mdl.Image.objects.get(image=i[7:])
               for i in new_images]
     return instance.images.add(*images)
 
